@@ -29,6 +29,13 @@ data class Character(
     val url: String
 )
 
+data class CharacterLite(
+    val id: Int,
+    val image: String,
+    val name: String,
+    val url: String
+)
+
 data class Location(
     val name: String,
     val url: String
