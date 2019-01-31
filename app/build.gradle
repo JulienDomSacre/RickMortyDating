@@ -66,13 +66,30 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.appcompat:appcompat:$rootProject.ext.support_library"
     implementation "androidx.core:core-ktx:$rootProject.ext.kotlin_core"
+
+    //Widget
     implementation "androidx.constraintlayout:constraintlayout:$rootProject.ext.constraint_layout"
     implementation "androidx.paging:paging-runtime:$rootProject.ext.paging_version"
     implementation "com.android.support:recyclerview-v7:$rootProject.ext.recycler_view"
-    implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofit"
-    implementation "com.squareup.retrofit2:converter-gson:$rootProject.ext.retrofit"
+
     implementation "com.jakewharton.timber:timber:$rootProject.ext.retrofit" //log
     implementation "com.squareup.picasso:picasso:$rootProject.ext.retrofit"//image
+
+    //Rx
+    implementation "io.reactivex.rxjava2:rxandroid:$rootProject.ext.rx_android"
+    implementation "io.reactivex.rxjava2:rxjava:$rootProject.ext.rx_java"
+
+    //Dagger
+    implementation "com.google.dagger:dagger:$rootProject.ext.dagger"
+    kapt "com.google.dagger:dagger-compiler:$rootProject.ext.dagger"
+
+    //Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$rootProject.ext.retrofit"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$rootProject.ext.retrofit"
+    implementation "com.squareup.okhttp3:okhttp:$rootProject.ext.retrofit_log"
+    implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.ext.retrofit_log"
+    implementation "com.google.code.gson:gson:$rootProject.ext.gson"
 
     //Test
     testImplementation "junit:junit:$rootProject.ext.junit"
@@ -81,6 +98,7 @@ dependencies {
 
     //AAR
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.ext.lifecycle"
+    implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:$rootProject.ext.lifecycle"
     kapt "androidx.lifecycle:lifecycle-compiler:$rootProject.ext.lifecycle"
     testImplementation "androidx.arch.core:core-testing:$rootProject.ext.lifecycle"
 }
