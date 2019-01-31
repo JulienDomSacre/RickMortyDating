@@ -1,12 +1,12 @@
 package com.juliensacre.rickmortydating.data.source
 
-import androidx.lifecycle.LiveData
 import com.juliensacre.rickmortydating.data.Character
 import com.juliensacre.rickmortydating.data.CharactersFull
-import com.juliensacre.rickmortydating.data.Location
+import com.juliensacre.rickmortydating.data.LocationDetail
+import io.reactivex.Flowable
 
 interface CharactersDataSource {
-    fun getCharacters(page: Int) : LiveData<CharactersFull>
-    fun getCharacter(characterId : String) : LiveData<Character>
-    fun getCharacterLocation(locationId : String) : LiveData<Location>
+    fun getCharacters(page: Int = 1) : Flowable<CharactersFull>
+    fun getCharacter(characterId : Int) : Flowable<Character>
+    fun getCharacterLocation(locationId: Int): Flowable<LocationDetail>
 }
