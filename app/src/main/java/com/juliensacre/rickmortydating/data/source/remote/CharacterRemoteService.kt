@@ -10,7 +10,7 @@ import retrofit2.http.Query
 
 interface CharacterRemoteService {
     @GET("character/")
-    fun getCharacters (@Query("page") page: Int = 1) : Flowable<CharactersFull>
+    fun getCharacters (@Query("page") page: Int) : Flowable<CharactersFull>
 
     @GET("character/{id}")
     fun getCharacter (@Path("id") characterId: Int) : Flowable<Character>
