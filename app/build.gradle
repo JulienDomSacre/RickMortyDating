@@ -70,7 +70,7 @@ dependencies {
     //Widget
     implementation "androidx.constraintlayout:constraintlayout:$rootProject.ext.constraint_layout"
     implementation "androidx.paging:paging-runtime:$rootProject.ext.paging_version"
-    implementation "com.android.support:recyclerview-v7:$rootProject.ext.recycler_view"
+    implementation "androidx.recyclerview:recyclerview:$rootProject.ext.recycler_view"
 
     implementation "com.jakewharton.timber:timber:$rootProject.ext.retrofit" //log
     implementation "com.squareup.picasso:picasso:$rootProject.ext.retrofit"//image
@@ -95,10 +95,12 @@ dependencies {
     testImplementation "junit:junit:$rootProject.ext.junit"
     androidTestImplementation "androidx.test:runner:$rootProject.ext.runner"
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.ext.espresso"
+    testImplementation "org.hamcrest:hamcrest-library:$rootProject.ext.hamcrest"
 
     //AAR
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.ext.lifecycle"
     implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:$rootProject.ext.lifecycle"
     kapt "androidx.lifecycle:lifecycle-compiler:$rootProject.ext.lifecycle"
     testImplementation "androidx.arch.core:core-testing:$rootProject.ext.lifecycle"
+
 }
