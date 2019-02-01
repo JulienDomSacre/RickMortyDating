@@ -1,5 +1,6 @@
 package com.juliensacre.rickmortydating.characters
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.juliensacre.rickmortydating.data.Character
@@ -7,11 +8,12 @@ import com.juliensacre.rickmortydating.data.source.remote.ApiClient
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
-class CharactersViewModel : ViewModel() {
+class CharactersViewModel @Inject constructor(): ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
-    val charactersList = MutableLiveData<ArrayList<Character>>()
+    private val charactersList = MutableLiveData<ArrayList<Character>>()
     private var page = 1
 
     init {
@@ -19,7 +21,7 @@ class CharactersViewModel : ViewModel() {
     }
 
 
-    fun getCharacters(){
+    fun getCharacters() : LiveData<ArrayList<Character>>{
         val charactersDisposable =  ApiClient.getCharacterService().getCharacters(page)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -36,6 +38,7 @@ class CharactersViewModel : ViewModel() {
             )
 
         compositeDisposable.add(charactersDisposable)
+        return charactersList
     }
 
     override fun onCleared() {
