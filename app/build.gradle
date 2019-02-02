@@ -71,6 +71,7 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$rootProject.ext.constraint_layout"
     implementation "androidx.paging:paging-runtime:$rootProject.ext.paging_version"
     implementation "androidx.recyclerview:recyclerview:$rootProject.ext.recycler_view"
+    implementation "com.android.support:cardview-v7:$rootProject.ext.cardview_layout"
 
     implementation "com.jakewharton.timber:timber:$rootProject.ext.retrofit" //log
     implementation "com.squareup.picasso:picasso:$rootProject.ext.retrofit"//image

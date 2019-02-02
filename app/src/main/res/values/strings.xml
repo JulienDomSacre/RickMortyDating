@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Rick&amp;Morty Dating</string>
+    <string name="retry">Retry</string>
+    <string name="about_me">About me</string>
+    <string name="status">Status</string>
+    <string name="my_origin">My origin</string>
+    <string name="my_species">My species</string>
+    <string name="my_gender">My gender</string>
+    <string name="last_seen">Where I was last seen</string>
+    <string name="character_image_content_descrition">Character\'s image</string>
 </resources>
