@@ -1,14 +1,9 @@
 package com.juliensacre.rickmortydating.data.source
 
-import com.juliensacre.rickmortydating.data.Character
-import com.juliensacre.rickmortydating.data.CharactersFull
-import com.juliensacre.rickmortydating.data.LocationDetail
-import io.reactivex.Flowable
-
 /**
  * The repository is pretty useless for the moment but I prepare the future :)
  */
-class CharactersRepository (private val charactersRemoteDataSource: CharactersDataSource) : CharactersDataSource {
+/*class CharactersRepository (private val charactersRemoteDataSource: CharactersDataSource) : CharactersDataSource {
     //var cachedCharacter : LinkedHashMap<Int, Character> = LinkedHashMap()
     //var cachedLocationDetail : LinkedHashMap<Int, LocationDetail> = LinkedHashMap()
 
@@ -24,4 +19,4 @@ class CharactersRepository (private val charactersRemoteDataSource: CharactersDa
         return charactersRemoteDataSource.getCharacterLocation(locationId)
     }
 
-}
+}*/

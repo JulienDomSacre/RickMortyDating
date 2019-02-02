@@ -1,12 +1,6 @@
 package com.juliensacre.rickmortydating.data.source.remote
 
-import com.juliensacre.rickmortydating.data.Character
-import com.juliensacre.rickmortydating.data.CharactersFull
-import com.juliensacre.rickmortydating.data.LocationDetail
-import com.juliensacre.rickmortydating.data.source.CharactersDataSource
-import io.reactivex.Flowable
-
-class CharactersRemoteDataSource : CharactersDataSource {
+/*class CharactersRemoteDataSource : CharactersDataSource {
 
     override fun getCharacters(page: Int): Flowable<CharactersFull> {
         return ApiClient.getCharacterService().getCharacters(page)
@@ -20,4 +14,4 @@ class CharactersRemoteDataSource : CharactersDataSource {
         return ApiClient.getCharacterService().getCharacterLocation(locationId)
     }
 
-}
+}*/

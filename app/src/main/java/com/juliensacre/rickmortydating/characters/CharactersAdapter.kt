@@ -1,15 +1,33 @@
 package com.juliensacre.rickmortydating.characters
 
-import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.juliensacre.rickmortydating.R
 import com.juliensacre.rickmortydating.data.Character
-import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.item_character.view.*
+import com.juliensacre.rickmortydating.util.NetworkState
 
-class CharactersAdapter(val onClick: (Character) -> Unit) : RecyclerView.Adapter<CharactersAdapter.ViewHolder>() {
+/**
+ * With help of Ahmed Abd-Elmeged (https://github.com/Ahmed-Abdelmeged/PagingLibraryWithRxJava)
+ */
+class CharactersAdapter(val onClick: (Character?) -> Unit, private val retryCallback: () -> Unit) : PagedListAdapter<Character,RecyclerView.ViewHolder>(CharacterDiffCallback) {
+
+    private var networkState: NetworkState? = null
+
+    //Wanted for the paging list
+    // check the item to avoid duplication
+    companion object {
+        val CharacterDiffCallback = object : DiffUtil.ItemCallback<Character>() {
+            override fun areItemsTheSame(oldItem: Character, newItem: Character): Boolean {
+                return oldItem.id == newItem.id
+            }
+
+            override fun areContentsTheSame(oldItem: Character, newItem: Character): Boolean {
+                return oldItem == newItem
+            }
+        }
+    }
 
     private var items: List<Character> = emptyList()
 
@@ -17,26 +35,66 @@ class CharactersAdapter(val onClick: (Character) -> Unit) : RecyclerView.Adapter
         items = newItems
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharactersAdapter.ViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_character,parent, false)
-        return ViewHolder(itemView)
-
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            R.layout.item_character -> CharacterViewHolder.create(parent)
+            R.layout.item_network_state -> NetworkStateViewHolder.create(parent, retryCallback)
+            else -> throw IllegalArgumentException("unknown view type")
+        }
     }
 
-    override fun getItemCount(): Int = items.size
-
-    override fun onBindViewHolder(holder: CharactersAdapter.ViewHolder, position: Int) {
-        holder.bindCharacter(items[position])
-        holder.itemView.setOnClickListener { onClick(items[position]) }
+    override fun getItemCount(): Int {
+        return super.getItemCount() + if (hasExtraRow()) 1 else 0
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        // used as an exemple: Kotlin for Android Developers
-        fun bindCharacter(character: Character) {
-            with (character){
-                Picasso.with(itemView.context).load(image).into(itemView.imageView)
-                itemView.textView.text = name
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (getItemViewType(position)) {
+            R.layout.item_character -> {
+                (holder as CharacterViewHolder).bindTo(getItem(position))
+                holder.itemView.setOnClickListener { onClick(getItem(position)) }
+            }
+            R.layout.item_network_state -> (holder as NetworkStateViewHolder).bindTo(networkState)
+        }
+    }
+
+    private fun hasExtraRow(): Boolean {
+        return networkState != null && networkState != NetworkState.LOADED
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (hasExtraRow() && position == itemCount - 1) {
+            R.layout.item_network_state
+        } else {
+            R.layout.item_character
+        }
+    }
+
+    /**
+     * Set the current network state to the adapter
+     * but this work only after the initial load
+     * and the adapter already have list to add new loading raw to it
+     * so the initial loading state the activity responsible for handle it
+     *
+     * @param newNetworkState the new network state
+     */
+    fun setNetworkState(newNetworkState: NetworkState?) {
+        if (currentList != null) {
+            if (currentList!!.size != 0) {
+                val previousState = this.networkState
+                val hadExtraRow = hasExtraRow()
+                this.networkState = newNetworkState
+                val hasExtraRow = hasExtraRow()
+                if (hadExtraRow != hasExtraRow) {
+                    if (hadExtraRow) {
+                        notifyItemRemoved(super.getItemCount())
+                    } else {
+                        notifyItemInserted(super.getItemCount())
+                    }
+                } else if (hasExtraRow && previousState !== newNetworkState) {
+                    notifyItemChanged(itemCount - 1)
+                }
             }
         }
     }
+
 }

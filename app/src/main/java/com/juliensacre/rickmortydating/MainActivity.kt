@@ -25,7 +25,8 @@ class MainActivity : AppCompatActivity() {
         rxEventDisposable = RxBus.listen(RxEvent.CharacterSelected::class.java).subscribe {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container, CharacterDetailFragment.newInstance(it.id))
-                .commitNow()
+                .addToBackStack(null)
+                .commit()
         }
     }
 
@@ -33,6 +34,4 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         if (!rxEventDisposable.isDisposed) rxEventDisposable.dispose()
     }
-
-
 }

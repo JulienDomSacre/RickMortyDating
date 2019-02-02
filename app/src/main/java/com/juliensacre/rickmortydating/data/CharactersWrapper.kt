@@ -1,7 +1,5 @@
 package com.juliensacre.rickmortydating.data
 
-import android.location.Location
-
 data class CharactersFull(
     val info: Info,
     val results: List<Character>
@@ -20,7 +18,7 @@ data class Character(
     val gender: String,
     val id: Int,
     val image: String,
-    val location: Location,
+    val location: LocationLastSeen,
     val name: String,
     val origin: Origin,
     val species: String,
@@ -36,7 +34,7 @@ data class CharacterLite(
     val url: String
 )
 
-data class Location(
+data class LocationLastSeen(
     val name: String,
     val url: String
 )

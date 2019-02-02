@@ -1,49 +1,58 @@
 package com.juliensacre.rickmortydating.characters
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import com.juliensacre.rickmortydating.data.Character
+import com.juliensacre.rickmortydating.data.source.CharactersDataSource
+import com.juliensacre.rickmortydating.data.source.CharactersDataSourceFactory
 import com.juliensacre.rickmortydating.data.source.remote.ApiClient
-import io.reactivex.android.schedulers.AndroidSchedulers
+import com.juliensacre.rickmortydating.util.NetworkState
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 import javax.inject.Inject
 
+/**
+ * With help of Ahmed Abd-Elmeged (https://github.com/Ahmed-Abdelmeged/PagingLibraryWithRxJava)
+ */
 class CharactersViewModel @Inject constructor(): ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
-    private val charactersList = MutableLiveData<ArrayList<Character>>()
-    private var page = 1
+    var charactersList : LiveData<PagedList<Character>>
+    private val pageSize = 20
+
+    private val sourceFactory: CharactersDataSourceFactory
 
     init {
-        charactersList.value = ArrayList()
+        sourceFactory = CharactersDataSourceFactory(compositeDisposable, ApiClient.getCharacterService())
+        val config = PagedList.Config.Builder()
+            .setPageSize(pageSize)
+            .setInitialLoadSizeHint(pageSize * 2)
+            .setEnablePlaceholders(false)
+            .build()
+        charactersList = LivePagedListBuilder<Long, Character>(sourceFactory, config).build()
+        Timber.d("!!! init !!! ")
     }
 
-
-    fun getCharacters() : LiveData<ArrayList<Character>>{
-        val charactersDisposable =  ApiClient.getCharacterService().getCharacters(page)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                {
-                    charactersList.value!!.addAll(it.results)
-                    charactersList.value = charactersList.value
-
-                    page = it.info.next.removePrefix("https://rickandmortyapi.com/api/character/?page=").toInt()
-                },
-                {
-                    //todo error
-                }
-            )
-
-        compositeDisposable.add(charactersDisposable)
-        return charactersList
+    fun retry() {
+        sourceFactory.usersDataSourceLiveData.value!!.retry()
     }
+
+    fun refresh() {
+        sourceFactory.usersDataSourceLiveData.value!!.invalidate()
+    }
+
+    fun getNetworkState(): LiveData<NetworkState> = Transformations.switchMap<CharactersDataSource, NetworkState>(
+        sourceFactory.usersDataSourceLiveData) { it.networkState }
+
+    fun getRefreshState(): LiveData<NetworkState> = Transformations.switchMap<CharactersDataSource, NetworkState>(
+        sourceFactory.usersDataSourceLiveData) { it.initialLoad }
 
     override fun onCleared() {
         super.onCleared()
-
         compositeDisposable.clear()
+        Timber.d("!!! cleared !!! ")
     }
 }
