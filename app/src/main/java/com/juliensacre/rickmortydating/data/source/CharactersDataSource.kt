@@ -59,6 +59,7 @@ class CharactersDataSource (
                 pageMax = it.info.pages
                 callback.onResult(it.results)
                 checkIsAllLoad(it.info.next)
+                Timber.d("get character page 1")
             }, {
                 // keep a Completable for future retry
                 setRetry(Action { loadInitial(params, callback) })
@@ -81,7 +82,7 @@ class CharactersDataSource (
                 networkState.postValue(NetworkState.LOADED)
                 callback.onResult(it.results)
                 checkIsAllLoad(it.info.next)
-
+                Timber.d("get character page ${params.key}")
             }, {
                 // keep a Completable for future retry
                 setRetry(Action { loadAfter(params, callback) })

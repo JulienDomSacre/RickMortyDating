@@ -7,8 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.juliensacre.rickmortydating.R
+import com.juliensacre.rickmortydating.data.Character
 import com.juliensacre.rickmortydating.util.NetworkState
 import com.juliensacre.rickmortydating.util.RxBus
 import com.juliensacre.rickmortydating.util.RxEvent
@@ -27,7 +31,7 @@ class CharactersFragment : Fragment() {
     }
 
     private lateinit var viewModel : CharactersViewModel
-    private lateinit var charactersAdapter: CharactersAdapter
+    private lateinit var adapter: CharactersAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.fragment_characters_list, container, false)
@@ -40,14 +44,19 @@ class CharactersFragment : Fragment() {
             ViewModelProviders.of(this).get(CharactersViewModel::class.java)
         } ?: throw Exception("Invalid Activity")
 
-        val adapter = CharactersAdapter({characterClicked(it!!.id)}){
-            viewModel.retry() //similar to click listener
+        adapter = CharactersAdapter({characterClicked(it!!.id)}){ //similar to click listener
+            viewModel.retry()
         }
-        recyclerView.layoutManager = GridLayoutManager(context,2)
+        val linearLayoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        val gridLayoutManager = GridLayoutManager(context,2)
+
+        recyclerView.layoutManager = gridLayoutManager
         recyclerView.adapter = adapter
 
-        viewModel.charactersList.observe(this, Observer { adapter.submitList(it) })
+        viewModel.charactersList.observe(this, Observer<PagedList<Character>> { adapter.submitList(it) })
         viewModel.getNetworkState().observe(this, Observer<NetworkState> { adapter.setNetworkState(it) })
+
+        initSwipeToRefresh()
     }
 
     private fun characterClicked(characterId : Int){
@@ -60,8 +69,8 @@ class CharactersFragment : Fragment() {
      */
     private fun initSwipeToRefresh() {
         viewModel.getRefreshState().observe(this, Observer { networkState ->
-            if (charactersAdapter.currentList != null) {
-                if (charactersAdapter.currentList!!.size > 0) {
+            if (adapter.currentList != null) {
+                if (adapter.currentList!!.size > 0) {
                     swipeRefresh.isRefreshing = networkState?.status == NetworkState.LOADING.status
                 } else {
                     setInitialLoadingState(networkState)
@@ -80,6 +89,7 @@ class CharactersFragment : Fragment() {
      * @param networkState the new network state
      */
     private fun setInitialLoadingState(networkState: NetworkState?) {
+        network_state_include.visibility = View.VISIBLE
         //error message
         errorMessageTextView.visibility = if (networkState?.message != null) View.VISIBLE else View.GONE
         if (networkState?.message != null) {

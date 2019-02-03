@@ -24,4 +24,15 @@
                 tools:listitem="@layout/item_character"/>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+    <include
+            layout="@layout/item_network_state"
+            android:id="@+id/network_state_include"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/swipeRefresh" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
