@@ -2,7 +2,7 @@ package com.juliensacre.rickmortydating.data.source
 
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
-import com.juliensacre.rickmortydating.data.Character
+import com.juliensacre.rickmortydating.data.CharacterLite
 import com.juliensacre.rickmortydating.data.source.remote.CharacterRemoteService
 import io.reactivex.disposables.CompositeDisposable
 
@@ -15,11 +15,11 @@ import io.reactivex.disposables.CompositeDisposable
  */
 class CharactersDataSourceFactory(private val compositeDisposable: CompositeDisposable,
                              private val characterRemoteService: CharacterRemoteService)
-    : DataSource.Factory<Long, Character>() {
+    : DataSource.Factory<Long, CharacterLite>() {
 
     val usersDataSourceLiveData = MutableLiveData<CharactersDataSource>()
 
-    override fun create(): DataSource<Long, Character> {
+    override fun create(): DataSource<Long, CharacterLite> {
         val usersDataSource = CharactersDataSource(characterRemoteService, compositeDisposable)
         usersDataSourceLiveData.postValue(usersDataSource)
         return usersDataSource

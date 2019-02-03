@@ -2,7 +2,7 @@ package com.juliensacre.rickmortydating.data
 
 data class CharactersFull(
     val info: Info,
-    val results: List<Character>
+    val results: List<CharacterLite>
 )
 
 data class Info(
@@ -31,7 +31,8 @@ data class CharacterLite(
     val id: Int,
     val image: String,
     val name: String,
-    val url: String
+    val origin: Origin,
+    val species: String
 )
 
 data class LocationLastSeen(

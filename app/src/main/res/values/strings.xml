@@ -8,4 +8,5 @@
     <string name="my_gender">My gender</string>
     <string name="last_seen">Where I was last seen</string>
     <string name="character_image_content_descrition">Character\'s image</string>
+    <string name="just_a_decoration">Just a decoration</string>
 </resources>

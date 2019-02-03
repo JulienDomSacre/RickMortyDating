@@ -4,19 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.juliensacre.rickmortydating.R
-import com.juliensacre.rickmortydating.data.Character
-import com.juliensacre.rickmortydating.util.NetworkState
-import com.juliensacre.rickmortydating.util.RxBus
-import com.juliensacre.rickmortydating.util.RxEvent
-import com.juliensacre.rickmortydating.util.Status
+import com.juliensacre.rickmortydating.data.CharacterLite
+import com.juliensacre.rickmortydating.util.*
 import kotlinx.android.synthetic.main.fragment_characters_list.*
 import kotlinx.android.synthetic.main.item_network_state.*
 import timber.log.Timber
@@ -47,13 +43,14 @@ class CharactersFragment : Fragment() {
         adapter = CharactersAdapter({characterClicked(it!!.id)}){ //similar to click listener
             viewModel.retry()
         }
-        val linearLayoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        val gridLayoutManager = GridLayoutManager(context,2)
+
+        (activity as AppCompatActivity).setSupportActionBar(null)
+        val gridLayoutManager = GridLayoutManager(context,AndroidUtil.calcultateNumberOfColumn(activity!!))
 
         recyclerView.layoutManager = gridLayoutManager
         recyclerView.adapter = adapter
 
-        viewModel.charactersList.observe(this, Observer<PagedList<Character>> { adapter.submitList(it) })
+        viewModel.charactersList.observe(this, Observer<PagedList<CharacterLite>> { adapter.submitList(it) })
         viewModel.getNetworkState().observe(this, Observer<NetworkState> { adapter.setNetworkState(it) })
 
         initSwipeToRefresh()

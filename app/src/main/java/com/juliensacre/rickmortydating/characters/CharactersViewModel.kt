@@ -5,7 +5,7 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.juliensacre.rickmortydating.data.Character
+import com.juliensacre.rickmortydating.data.CharacterLite
 import com.juliensacre.rickmortydating.data.source.CharactersDataSource
 import com.juliensacre.rickmortydating.data.source.CharactersDataSourceFactory
 import com.juliensacre.rickmortydating.data.source.remote.ApiClient
@@ -20,7 +20,7 @@ import javax.inject.Inject
 class CharactersViewModel @Inject constructor(): ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
-    var charactersList : LiveData<PagedList<Character>>
+    var charactersList : LiveData<PagedList<CharacterLite>>
     private val pageSize = 20
 
     private val sourceFactory: CharactersDataSourceFactory
@@ -32,7 +32,7 @@ class CharactersViewModel @Inject constructor(): ViewModel() {
             .setInitialLoadSizeHint(pageSize * 2)
             .setEnablePlaceholders(false)
             .build()
-        charactersList = LivePagedListBuilder<Long, Character>(sourceFactory, config).build()
+        charactersList = LivePagedListBuilder<Long, CharacterLite>(sourceFactory, config).build()
         Timber.d("!!! init !!! ")
     }
 

@@ -18,10 +18,13 @@
         <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                tools:spanCount="2"
+                tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 tools:layout_editor_absoluteY="8dp"
                 tools:layout_editor_absoluteX="8dp"
                 android:id="@+id/recyclerView"
-                tools:listitem="@layout/item_character"/>
+                tools:listitem="@layout/item_character"
+                />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <include

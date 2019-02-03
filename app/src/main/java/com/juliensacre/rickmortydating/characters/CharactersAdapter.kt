@@ -5,39 +5,39 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.juliensacre.rickmortydating.R
-import com.juliensacre.rickmortydating.data.Character
+import com.juliensacre.rickmortydating.data.CharacterLite
 import com.juliensacre.rickmortydating.util.NetworkState
 
 /**
  * With help of Ahmed Abd-Elmeged (https://github.com/Ahmed-Abdelmeged/PagingLibraryWithRxJava)
  */
-class CharactersAdapter(val onClick: (Character?) -> Unit, private val retryCallback: () -> Unit) : PagedListAdapter<Character,RecyclerView.ViewHolder>(CharacterDiffCallback) {
+class CharactersAdapter(val onClick: (CharacterLite?) -> Unit, private val retryCallback: () -> Unit) : PagedListAdapter<CharacterLite,RecyclerView.ViewHolder>(CharacterDiffCallback) {
 
     private var networkState: NetworkState? = null
 
     //Wanted for the paging list
     // check the item to avoid duplication
     companion object {
-        val CharacterDiffCallback = object : DiffUtil.ItemCallback<Character>() {
-            override fun areItemsTheSame(oldItem: Character, newItem: Character): Boolean {
+        val CharacterDiffCallback = object : DiffUtil.ItemCallback<CharacterLite>() {
+            override fun areItemsTheSame(oldItem: CharacterLite, newItem: CharacterLite): Boolean {
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: Character, newItem: Character): Boolean {
+            override fun areContentsTheSame(oldItem: CharacterLite, newItem: CharacterLite): Boolean {
                 return oldItem == newItem
             }
         }
     }
 
-    private var items: List<Character> = emptyList()
+    private var items: List<CharacterLite> = emptyList()
 
-    fun loadItem(newItems : List<Character>){
+    fun loadItem(newItems : List<CharacterLite>){
         items = newItems
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            R.layout.item_character -> CharacterViewHolder.create(parent)
+            R.layout.item_character -> CharactersViewHolder.create(parent)
             R.layout.item_network_state -> NetworkStateViewHolder.create(parent, retryCallback)
             else -> throw IllegalArgumentException("unknown view type")
         }
@@ -50,7 +50,7 @@ class CharactersAdapter(val onClick: (Character?) -> Unit, private val retryCall
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (getItemViewType(position)) {
             R.layout.item_character -> {
-                (holder as CharacterViewHolder).bindTo(getItem(position))
+                (holder as CharactersViewHolder).bindTo(getItem(position))
                 holder.itemView.setOnClickListener { onClick(getItem(position)) }
             }
             R.layout.item_network_state -> (holder as NetworkStateViewHolder).bindTo(networkState)

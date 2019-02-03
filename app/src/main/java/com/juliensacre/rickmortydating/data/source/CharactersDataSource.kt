@@ -2,7 +2,7 @@ package com.juliensacre.rickmortydating.data.source
 
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.ItemKeyedDataSource
-import com.juliensacre.rickmortydating.data.Character
+import com.juliensacre.rickmortydating.data.CharacterLite
 import com.juliensacre.rickmortydating.data.source.remote.CharacterRemoteService
 import com.juliensacre.rickmortydating.util.NetworkState
 import io.reactivex.Completable
@@ -18,7 +18,7 @@ import timber.log.Timber
 class CharactersDataSource (
     private val characterService : CharacterRemoteService,
     private val compositeDisposable : CompositeDisposable)
-    :ItemKeyedDataSource<Long, Character>(){
+    :ItemKeyedDataSource<Long, CharacterLite>(){
 
     val networkState = MutableLiveData<NetworkState>()
 
@@ -42,7 +42,7 @@ class CharactersDataSource (
         }
     }
 
-    override fun loadInitial(params: LoadInitialParams<Long>, callback: LoadInitialCallback<Character>) {
+    override fun loadInitial(params: LoadInitialParams<Long>, callback: LoadInitialCallback<CharacterLite>) {
         if(!isEndList) {
             // update network states.
             // we also provide an initial load state to the listeners so that the UI can know when the
@@ -71,7 +71,7 @@ class CharactersDataSource (
         }
     }
 
-    override fun loadAfter(params: LoadParams<Long>, callback: LoadCallback<Character>) {
+    override fun loadAfter(params: LoadParams<Long>, callback: LoadCallback<CharacterLite>) {
         if(!isEndList) {
             // set network value to loading.
             networkState.postValue(NetworkState.LOADING)
@@ -92,11 +92,11 @@ class CharactersDataSource (
         }
     }
 
-    override fun loadBefore(params: LoadParams<Long>, callback: LoadCallback<Character>) {
+    override fun loadBefore(params: LoadParams<Long>, callback: LoadCallback<CharacterLite>) {
         //nothing
     }
 
-    override fun getKey(item: Character): Long {
+    override fun getKey(item: CharacterLite): Long {
         return nextPage.toLong()
     }
 
