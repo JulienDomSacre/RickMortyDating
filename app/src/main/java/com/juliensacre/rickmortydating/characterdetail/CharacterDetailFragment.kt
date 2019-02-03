@@ -11,8 +11,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.juliensacre.rickmortydating.R
 import com.juliensacre.rickmortydating.data.Character
+import com.juliensacre.rickmortydating.util.NetworkState
+import com.juliensacre.rickmortydating.util.Status
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_character_detail.*
+import kotlinx.android.synthetic.main.item_network_state.*
 
 class CharacterDetailFragment : Fragment() {
     companion object {
@@ -26,20 +29,24 @@ class CharacterDetailFragment : Fragment() {
     private lateinit var viewModel : CharacterDetailViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        viewModel = activity?.run {
+            ViewModelProviders.of(this).get(CharacterDetailViewModel::class.java)
+        } ?: throw Exception("Invalid Activity")
+
         return inflater.inflate(R.layout.fragment_character_detail, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = activity?.run {
-            ViewModelProviders.of(this).get(CharacterDetailViewModel::class.java)
-        } ?: throw Exception("Invalid Activity")
+
+        (activity as AppCompatActivity).setSupportActionBar(toolbar_character_detail)
+        toolbar_character_detail.bringToFront()
 
         val stringId = arguments!!.getInt(CHARACTER_ID).toString()
-
         viewModel.getCharacter(stringId.toInt()).observe(this, Observer { bindData(it) })
-
-        activity to AppCompatActivity() .supportActionBar
+        viewModel.getNetworkState().observe(this, Observer<NetworkState> {
+            loadingState(it)
+        })
     }
 
     private fun bindData(character : Character){
@@ -51,7 +58,18 @@ class CharacterDetailFragment : Fragment() {
             gender_text.text = gender
             seen_text.text = location.name
         }
+    }
 
-
+    private fun loadingState(networkState: NetworkState?) {
+        //error message
+        errorMessageTextView.visibility = if (networkState?.message != null) View.VISIBLE else View.GONE
+        if (networkState?.message != null) {
+            errorMessageTextView.text = networkState.message
+        }
+        //loading and retry
+        retryLoadingButton.visibility = if (networkState?.status == Status.FAILED) View.VISIBLE else View.GONE
+        loadingProgressBar.visibility = if (networkState?.status == Status.RUNNING) View.VISIBLE else View.GONE
+        backgroundLoad.visibility = if (networkState?.status != Status.SUCCESS ) View.VISIBLE else View.GONE
+        retryLoadingButton.setOnClickListener { viewModel.retry() }
     }
 }
