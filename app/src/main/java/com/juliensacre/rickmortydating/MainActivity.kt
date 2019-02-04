@@ -1,6 +1,7 @@
 package com.juliensacre.rickmortydating
 
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.juliensacre.rickmortydating.characterdetail.CharacterDetailFragment
 import com.juliensacre.rickmortydating.characters.CharactersFragment
@@ -33,5 +34,22 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         if (!rxEventDisposable.isDisposed) rxEventDisposable.dispose()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            android.R.id.home -> {
+                val backStackEntryCount = supportFragmentManager.backStackEntryCount
+
+                if (backStackEntryCount > 0) {
+
+                    supportFragmentManager.popBackStack()
+
+                }
+
+                return true
+            }
+        }
+        return false
     }
 }

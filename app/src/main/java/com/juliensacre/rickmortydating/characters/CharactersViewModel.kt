@@ -12,12 +12,11 @@ import com.juliensacre.rickmortydating.data.source.remote.ApiClient
 import com.juliensacre.rickmortydating.util.NetworkState
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
-import javax.inject.Inject
 
 /**
  * With help of Ahmed Abd-Elmeged (https://github.com/Ahmed-Abdelmeged/PagingLibraryWithRxJava)
  */
-class CharactersViewModel @Inject constructor(): ViewModel() {
+class CharactersViewModel : ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
     var charactersList : LiveData<PagedList<CharacterLite>>
@@ -33,7 +32,6 @@ class CharactersViewModel @Inject constructor(): ViewModel() {
             .setEnablePlaceholders(false)
             .build()
         charactersList = LivePagedListBuilder<Long, CharacterLite>(sourceFactory, config).build()
-        Timber.d("!!! init !!! ")
     }
 
     fun retry() {

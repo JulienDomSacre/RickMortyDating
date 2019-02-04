@@ -13,19 +13,17 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Action
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
-import javax.inject.Inject
 
-class CharacterDetailViewModel @Inject constructor() : ViewModel() {
+class CharacterDetailViewModel : ViewModel() {
     private val compositeDisposable = CompositeDisposable()
     private val character = MutableLiveData<Character>()
-    val networkState = MutableLiveData<NetworkState>()
-
-    init {
-        Timber.d(" $$$ init $$$")
-    }
+    private val networkState = MutableLiveData<NetworkState>()
 
     fun getCharacter(id : Int) : LiveData<Character> {
+        // set network value to loading.
         networkState.postValue(NetworkState.LOADING)
+
+        //get the characters from the api with id
         val charactersDisposable = ApiClient.getCharacterService().getCharacter(id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -48,6 +46,9 @@ class CharacterDetailViewModel @Inject constructor() : ViewModel() {
         return character
     }
 
+    /**
+     * Return the network state after receive character data
+     */
     fun getNetworkState(): LiveData<NetworkState> = Transformations.switchMap(character) { networkState }
 
     /**
@@ -75,6 +76,5 @@ class CharacterDetailViewModel @Inject constructor() : ViewModel() {
     override fun onCleared() {
         super.onCleared()
         compositeDisposable.clear()
-        Timber.d("!!! cleared !!! ")
     }
 }

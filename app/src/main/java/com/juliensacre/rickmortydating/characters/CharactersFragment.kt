@@ -30,22 +30,22 @@ class CharactersFragment : Fragment() {
     private lateinit var adapter: CharactersAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        viewModel = activity?.run {
+            ViewModelProviders.of(this).get(CharactersViewModel::class.java)
+        } ?: throw Exception("Invalid Activity")
+
         return inflater.inflate(R.layout.fragment_characters_list, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel = activity?.run {
-            ViewModelProviders.of(this).get(CharactersViewModel::class.java)
-        } ?: throw Exception("Invalid Activity")
-
         adapter = CharactersAdapter({characterClicked(it!!.id)}){ //similar to click listener
             viewModel.retry()
         }
 
         (activity as AppCompatActivity).setSupportActionBar(null)
-        val gridLayoutManager = GridLayoutManager(context,AndroidUtil.calcultateNumberOfColumn(activity!!))
+        val gridLayoutManager = GridLayoutManager(context,calculateNumberOfColumn(activity!!))
 
         recyclerView.layoutManager = gridLayoutManager
         recyclerView.adapter = adapter

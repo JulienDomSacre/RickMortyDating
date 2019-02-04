@@ -81,8 +81,11 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.ext.rx_java"
 
     //Dagger
-    implementation "com.google.dagger:dagger:$rootProject.ext.dagger"
-    kapt "com.google.dagger:dagger-compiler:$rootProject.ext.dagger"
+    //implementation "com.google.dagger:dagger:$rootProject.ext.dagger"
+    //kapt "com.google.dagger:dagger-compiler:$rootProject.ext.dagger"
+    //implementation "com.google.dagger:dagger-android:$rootProject.ext.dagger"
+    //kapt "com.google.dagger:dagger-android-processor:$rootProject.ext.dagger"
+    //mplementation "com.google.dagger:dagger-android-support:$rootProject.ext.dagger"
 
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofit"

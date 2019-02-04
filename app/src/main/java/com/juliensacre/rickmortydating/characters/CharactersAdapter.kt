@@ -10,8 +10,11 @@ import com.juliensacre.rickmortydating.util.NetworkState
 
 /**
  * With help of Ahmed Abd-Elmeged (https://github.com/Ahmed-Abdelmeged/PagingLibraryWithRxJava)
+ *
+ * Adapter with Paging
  */
-class CharactersAdapter(val onClick: (CharacterLite?) -> Unit, private val retryCallback: () -> Unit) : PagedListAdapter<CharacterLite,RecyclerView.ViewHolder>(CharacterDiffCallback) {
+class CharactersAdapter(val onClick: (CharacterLite?) -> Unit, private val retryCallback: () -> Unit)
+    : PagedListAdapter<CharacterLite,RecyclerView.ViewHolder>(CharacterDiffCallback) {
 
     private var networkState: NetworkState? = null
 
@@ -27,12 +30,6 @@ class CharactersAdapter(val onClick: (CharacterLite?) -> Unit, private val retry
                 return oldItem == newItem
             }
         }
-    }
-
-    private var items: List<CharacterLite> = emptyList()
-
-    fun loadItem(newItems : List<CharacterLite>){
-        items = newItems
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

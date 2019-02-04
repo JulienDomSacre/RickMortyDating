@@ -76,7 +76,7 @@ class CharactersDataSource (
             // set network value to loading.
             networkState.postValue(NetworkState.LOADING)
 
-            //get the characters from the api after id
+            //get the characters from the api
             compositeDisposable.add(characterService.getCharacters(params.key.toInt()).subscribe({
                 setRetry(null)
                 networkState.postValue(NetworkState.LOADED)
