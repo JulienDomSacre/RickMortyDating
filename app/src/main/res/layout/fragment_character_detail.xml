@@ -10,23 +10,13 @@
         android:id="@+id/constraintLayout">
 
     <androidx.appcompat.widget.Toolbar
-            android:layout_width="0dp"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@android:color/transparent"
+            style="@style/ToolBarBase"
             android:id="@+id/toolbar_character_detail"
-            style="@style/HeaderBar"
+            android:background="@color/cardview_shadow_start_color"
+            app:theme="@style/ToolBarWhite"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            >
-
-        <TextView
-                android:text="TextView"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/textView2"/>
-    </androidx.appcompat.widget.Toolbar>
-
+            app:layout_constraintEnd_toEndOf="parent"/>
 
     <androidx.core.widget.NestedScrollView
             android:layout_width="0dp"
@@ -46,10 +36,9 @@
             <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:srcCompat="@tools:sample/avatars"
                     android:id="@+id/photo"
+                    tools:srcCompat="@tools:sample/avatars"
                     android:contentDescription="@string/character_image_content_descrition"
-                    android:cropToPadding="false"
                     android:scaleType="fitCenter"
                     android:adjustViewBounds="true"/>
 
@@ -64,10 +53,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical"
-                        android:paddingBottom="8dp"
+                        android:paddingBottom="16dp"
                         android:paddingTop="8dp"
                         >
-
 
                     <TextView
                             android:text="@string/about_me"
@@ -89,9 +77,7 @@
                             android:id="@+id/status"
                             app:layout_constraintTop_toBottomOf="@+id/about_me"
                             app:layout_constraintStart_toStartOf="@+id/about_me"
-                            android:textStyle="bold"
-                            android:textAllCaps="true"
-                            android:layout_marginTop="8dp"/>
+                            style="@style/TextDescriptionStatic"/>
 
                     <TextView
                             android:text="@string/my_origin"
@@ -100,9 +86,7 @@
                             android:id="@+id/origin"
                             app:layout_constraintTop_toBottomOf="@+id/status"
                             app:layout_constraintStart_toStartOf="@+id/about_me"
-                            android:textStyle="bold"
-                            android:textAllCaps="true"
-                            android:layout_marginTop="8dp"/>
+                            style="@style/TextDescriptionStatic"/>
 
                     <TextView
                             android:text="@string/my_species"
@@ -111,9 +95,7 @@
                             android:id="@+id/species"
                             app:layout_constraintTop_toBottomOf="@+id/origin"
                             app:layout_constraintStart_toStartOf="@+id/about_me"
-                            android:textStyle="bold"
-                            android:textAllCaps="true"
-                            android:layout_marginTop="8dp"/>
+                            style="@style/TextDescriptionStatic"/>
 
                     <TextView
                             android:text="@string/my_gender"
@@ -122,9 +104,7 @@
                             android:id="@+id/gender"
                             app:layout_constraintTop_toBottomOf="@+id/species"
                             app:layout_constraintStart_toStartOf="@+id/about_me"
-                            android:textStyle="bold"
-                            android:textAllCaps="true"
-                            android:layout_marginTop="8dp"/>
+                            style="@style/TextDescriptionStatic"/>
 
                     <TextView
                             android:text="@string/last_seen"
@@ -134,10 +114,7 @@
                             app:layout_constraintTop_toBottomOf="@+id/gender"
                             app:layout_constraintStart_toStartOf="@+id/about_me"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            android:textStyle="bold"
-                            android:textAllCaps="true"
-                            android:layout_marginBottom="8dp"
-                            android:layout_marginTop="8dp"/>
+                            style="@style/TextDescriptionStatic"/>
 
                     <TextView
                             tools:text="TextView"
@@ -146,12 +123,8 @@
                             android:id="@+id/status_text"
                             app:layout_constraintStart_toEndOf="@+id/status"
                             app:layout_constraintBottom_toBottomOf="@+id/status"
-                            android:textAllCaps="false"
-                            android:layout_marginLeft="8dp"
-                            android:layout_marginStart="8dp"
                             app:layout_constraintEnd_toEndOf="parent"
-                            android:layout_marginEnd="8dp"
-                            android:layout_marginRight="8dp"/>
+                            style="@style/TextDescriptionDynamic"/>
 
                     <TextView
                             tools:text="TextView"
@@ -161,10 +134,7 @@
                             app:layout_constraintStart_toEndOf="@+id/origin"
                             app:layout_constraintBottom_toBottomOf="@+id/origin"
                             app:layout_constraintEnd_toEndOf="parent"
-                            android:layout_marginLeft="8dp"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:layout_marginRight="8dp"/>
+                            style="@style/TextDescriptionDynamic"/>
 
                     <TextView
                             tools:text="TextView"
@@ -174,10 +144,7 @@
                             app:layout_constraintStart_toEndOf="@+id/species"
                             app:layout_constraintBottom_toBottomOf="@+id/species"
                             app:layout_constraintEnd_toEndOf="parent"
-                            android:layout_marginLeft="8dp"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:layout_marginRight="8dp"/>
+                            style="@style/TextDescriptionDynamic"/>
 
                     <TextView
                             tools:text="TextView"
@@ -187,10 +154,7 @@
                             app:layout_constraintBottom_toBottomOf="@+id/gender"
                             app:layout_constraintStart_toEndOf="@+id/gender"
                             app:layout_constraintEnd_toEndOf="parent"
-                            android:layout_marginLeft="8dp"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:layout_marginRight="8dp"/>
+                            style="@style/TextDescriptionDynamic"/>
 
                     <TextView
                             tools:text="TextView"
@@ -200,10 +164,7 @@
                             app:layout_constraintBottom_toBottomOf="@+id/seen"
                             app:layout_constraintStart_toEndOf="@+id/seen"
                             app:layout_constraintEnd_toEndOf="parent"
-                            android:layout_marginLeft="8dp"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:layout_marginRight="8dp"/>
+                            style="@style/TextDescriptionDynamic"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
