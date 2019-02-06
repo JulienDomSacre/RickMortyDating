@@ -23,7 +23,7 @@ Solution: implémenter le composant de Navigation des aar
 Next step:
 Je vais repartir de 0 en suivant plus les méthode de Clean Architecture et en essayant d'utiliser mieux les spécificitées de Kotlin
 Je souhaite aussi intégrer les coroutines de kotlin.
-Amélioré l'UI et notamment intégrer des animations
+Amélioré l'UI et notamment intégrer les data binding et des animations
 Revoir l'architecture de l'appli (schéma à venir)
 Les tests, les tests, les tests, mon plus gros point noir (avec les di)
 
