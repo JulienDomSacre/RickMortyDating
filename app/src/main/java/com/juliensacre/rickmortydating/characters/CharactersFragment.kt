@@ -15,7 +15,6 @@ import com.juliensacre.rickmortydating.data.CharacterLite
 import com.juliensacre.rickmortydating.util.*
 import kotlinx.android.synthetic.main.fragment_characters_list.*
 import kotlinx.android.synthetic.main.item_network_state.*
-import timber.log.Timber
 
 /**
  * With help of Ahmed Abd-Elmeged (https://github.com/Ahmed-Abdelmeged/PagingLibraryWithRxJava)
@@ -40,25 +39,27 @@ class CharactersFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        adapter = CharactersAdapter({characterClicked(it!!.id)}){ //similar to click listener
-            viewModel.retry()
-        }
+        initAdapter()
+        initSwipeToRefresh()
 
-        (activity as AppCompatActivity).setSupportActionBar(null)
-        val gridLayoutManager = GridLayoutManager(context,calculateNumberOfColumn(activity!!))
-
-        recyclerView.layoutManager = gridLayoutManager
-        recyclerView.adapter = adapter
+        (activity as AppCompatActivity).setSupportActionBar(toolbar_character_list)
 
         viewModel.charactersList.observe(this, Observer<PagedList<CharacterLite>> { adapter.submitList(it) })
         viewModel.getNetworkState().observe(this, Observer<NetworkState> { adapter.setNetworkState(it) })
-
-        initSwipeToRefresh()
     }
 
+    /**
+     * Warn the activity that character is selected
+     */
     private fun characterClicked(characterId : Int){
-        Timber.i("click on item id: $characterId")
         RxBus.publish(RxEvent.CharacterSelected(characterId))
+    }
+
+    private fun initAdapter(){
+        adapter = CharactersAdapter({characterClicked(it!!.id)}){ viewModel.retry() }
+        val gridLayoutManager = GridLayoutManager(context,calculateNumberOfColumn(activity!!))
+        recyclerView.layoutManager = gridLayoutManager
+        recyclerView.adapter = adapter
     }
 
     /**

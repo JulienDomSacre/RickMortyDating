@@ -93,5 +93,4 @@ class CharactersAdapter(val onClick: (CharacterLite?) -> Unit, private val retry
             }
         }
     }
-
 }

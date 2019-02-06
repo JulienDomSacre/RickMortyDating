@@ -51,10 +51,6 @@ class CharacterDetailFragment : Fragment() {
 
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     private fun bindData(character : Character){
         with(character){
             Picasso.with(this@CharacterDetailFragment.context).load(image).into(photo)
