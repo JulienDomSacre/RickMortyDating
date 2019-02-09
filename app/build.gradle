@@ -6,6 +6,8 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
+apply plugin: 'androidx.navigation.safeargs.kotlin'
+
 android {
     compileSdkVersion rootProject.ext.compile_sdk
     defaultConfig {
@@ -65,7 +67,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.appcompat:appcompat:$rootProject.ext.support_library"
+    implementation "androidx.legacy:legacy-support-v4:$rootProject.ext.support_v4"
     implementation "androidx.core:core-ktx:$rootProject.ext.kotlin_core"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.ext.kotlin_coroutine"
 
     //Widget
     implementation "androidx.constraintlayout:constraintlayout:$rootProject.ext.constraint_layout"
@@ -74,23 +78,14 @@ dependencies {
     implementation "com.android.support:cardview-v7:$rootProject.ext.cardview_layout"
 
     implementation "com.jakewharton.timber:timber:$rootProject.ext.retrofit" //log
-    implementation "com.squareup.picasso:picasso:$rootProject.ext.retrofit"//image
-
-    //Rx
-    implementation "io.reactivex.rxjava2:rxandroid:$rootProject.ext.rx_android"
-    implementation "io.reactivex.rxjava2:rxjava:$rootProject.ext.rx_java"
-
-    //Dagger
-    //implementation "com.google.dagger:dagger:$rootProject.ext.dagger"
-    //kapt "com.google.dagger:dagger-compiler:$rootProject.ext.dagger"
-    //implementation "com.google.dagger:dagger-android:$rootProject.ext.dagger"
-    //kapt "com.google.dagger:dagger-android-processor:$rootProject.ext.dagger"
-    //mplementation "com.google.dagger:dagger-android-support:$rootProject.ext.dagger"
+    implementation "com.github.bumptech.glide:glide:$rootProject.ext.glide_image_loader"
+    kapt "com.github.bumptech.glide:compiler:$rootProject.ext.glide_image_loader"
+    implementation "org.koin:koin-android:$rootProject.ext.koin_di"
 
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofit"
     implementation "com.squareup.retrofit2:converter-gson:$rootProject.ext.retrofit"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$rootProject.ext.retrofit"
+    implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$rootProject.ext.retrofit_coroutine_adapter"
     implementation "com.squareup.okhttp3:okhttp:$rootProject.ext.retrofit_log"
     implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.ext.retrofit_log"
     implementation "com.google.code.gson:gson:$rootProject.ext.gson"
@@ -100,11 +95,20 @@ dependencies {
     androidTestImplementation "androidx.test:runner:$rootProject.ext.runner"
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.ext.espresso"
     testImplementation "org.hamcrest:hamcrest-library:$rootProject.ext.hamcrest"
+    testImplementation "androidx.arch.core:core-testing:$rootProject.ext.lifecycle"
+    testImplementation "androidx.room:room-testing:$rootProject.ext.room"
 
     //AAR
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.ext.lifecycle"
     implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:$rootProject.ext.lifecycle"
     kapt "androidx.lifecycle:lifecycle-compiler:$rootProject.ext.lifecycle"
-    testImplementation "androidx.arch.core:core-testing:$rootProject.ext.lifecycle"
+    implementation "android.arch.navigation:navigation-fragment-ktx:$rootProject.ext.navigation_fragment"
+    implementation "android.arch.navigation:navigation-ui-ktx:$rootProject.ext.navigation_fragment"
+    implementation "androidx.room:room-runtime:$rootProject.ext.room"
+    kapt "androidx.room:room-compiler:$rootProject.ext.room"
+    implementation "androidx.room:room-coroutines:$rootProject.ext.room"
+
+
+
 
 }
