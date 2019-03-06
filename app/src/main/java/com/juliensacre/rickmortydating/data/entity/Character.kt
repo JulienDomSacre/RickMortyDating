@@ -1,12 +1,7 @@
 package com.juliensacre.rickmortydating.data.entity
 
-import androidx.room.Embedded
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-
-@Entity (tableName = "character") //TODO update class for entity model
 data class Character(
-    @PrimaryKey var id: Int,
+    var id: Int,
     var name: String,
     var status: String,
     var species: String,
@@ -15,8 +10,8 @@ data class Character(
     var image: String,
     var url: String,
     var created: String,
-    @Embedded var origin: Origin,
-    @Embedded var location: Location
-    //var episode: List<String> = ArrayList() //TODO convert type
+    var origin: Origin,
+    var location: Location,
+    var episode: List<String> = ArrayList() //TODO convert type
 )
 
