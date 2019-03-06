@@ -1,6 +1,11 @@
 package com.juliensacre.rickmortydating.data.entity
 
 data class Location(
-    var name: String = "",
-    var url: String = ""
+    val id: Int,
+    val name: String,
+    val type: String,
+    val dimension: String,
+    val residents: List<String>,
+    val url: String,
+    val created: String
 )
